@@ -2,327 +2,214 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>LegacyCRM — Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ModernCRM — Panel de Control</title>
   <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-<header>
-  <div class="topbar">
-    <div class="brand">LegacyCRM <small>v0.1 (beta eterna)</small></div>
-    <input id="globalSearch" placeholder="Buscar... (no funciona bien)" />
-    <div class="pill" id="btnSync">Sincronizar</div>
-    <div class="pill ok" id="btnHelp">Ayuda</div>
-    <div class="pill danger" id="btnLogout">Salir</div>
-  </div>
-</header>
 
-<div class="wrap">
-  <aside>
-    <nav class="menu" id="menu">
-      <h3>Menú</h3>
-      <a href="#dashboard" data-route="dashboard" class="active">Dashboard <small>Resumen confuso</small></a>
-      <a href="#clientes" data-route="clientes">Clientes <small>Alta fricción</small></a>
-      <a href="#oportunidades" data-route="oportunidades">Oportunidades <small>Campos innecesarios</small></a>
-      <a href="#config" data-route="config">Configuración <small>Opciones raras</small></a>
-      <a href="#reportes" data-route="reportes">Reportes <small>Exporta a ".csvv"</small></a>
+<div class="app-container">
+  
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo-box">M</div>
+      <span>ModernCRM</span>
+    </div>
+    
+    <nav class="nav-menu">
+      <a href="#dashboard" class="nav-link active" data-target="view-dashboard">
+        Dashboard
+      </a>
+      <a href="#clientes" class="nav-link" data-target="view-clientes">
+        Clientes
+      </a>
+      <a href="#oportunidades" class="nav-link" data-target="view-oportunidades">
+        Oportunidades
+      </a>
+      <a href="#config" class="nav-link" data-target="view-config">
+        Configuración
+      </a>
+      <a href="#reportes" class="nav-link" data-target="view-reportes">
+        Reportes
+      </a>
     </nav>
 
-    <div class="friction" title="Indicador didáctico de fricción (sube con mala UX)">
-      <div class="meter"><i id="frictionBar"></i></div>
-      <div class="txt" id="frictionTxt">Fricción: 8% (tolerable)</div>
+    <div class="sidebar-footer">
+      <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
     </div>
-
-    <p class="note" style="margin:10px 6px 0;">
-      <strong style="color:#aab0c3">Nota:</strong> Esta app está diseñada para ser <em>frustrante</em> a propósito.
-    </p>
   </aside>
 
-  <main>
-    <!-- DASHBOARD -->
-    <section id="view-dashboard" class="view">
-      <div class="grid">
-        <div class="card">
-          <div class="hd">
-            <h2>Actividad Reciente</h2>
-            <div class="meta">Última actualización: <span id="lastUpdate">hace 47 min</span></div>
-          </div>
-          <div class="bd">
-            <table>
-              <thead>
-                <tr>
-                  <th>Evento</th><th>Usuario</th><th>Estado</th><th>Notas</th>
-                </tr>
-              </thead>
-              <tbody id="activityTbody"></tbody>
-            </table>
-            <p class="note">Tip (malo): "si no entiendes, prueba hacer clic en todo".</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="hd">
-            <h2>Alertas del Sistema</h2>
-            <div class="meta">Prioridad: Alta (siempre)</div>
-          </div>
-          <div class="bd" id="alertsBox">
-            <div class="tag bad">ERROR #A-17</div>
-            <div class="tag warn">WARNING</div>
-            <div class="tag bad">TIMEOUT</div>
-            <p class="note" style="margin-top:10px">
-              Mensajes ambiguos para aumentar ansiedad.
-            </p>
-            <ul style="margin:8px 0 0; padding-left:16px; font-size:11px; color:var(--muted)">
-              <li>"Algo salió mal. Intenta más tarde."</li>
-              <li>"Permisos insuficientes (¿cuáles?)"</li>
-              <li>"Sesión por expirar (sin opción clara de extender)"</li>
-            </ul>
-          </div>
+  <main class="main-content">
+    
+    <header class="topbar">
+      <h2 id="pageTitle">Resumen General</h2>
+      <div class="topbar-actions">
+        <input type="text" class="search-input" placeholder="Buscar clientes, tratos..." />
+        <div class="user-profile">
+          <span class="user-name">Admin</span>
+          <div class="avatar">A</div>
         </div>
       </div>
-    </section>
+    </header>
 
-    <!-- CLIENTES -->
-    <section id="view-clientes" class="view" style="display:none">
-      <div class="card">
-        <div class="hd">
-          <h2>Registrar Cliente (formulario eterno)</h2>
-          <div class="meta">Campos obligatorios: <strong>casi todos</strong></div>
-        </div>
-        <div class="bd">
+    <div class="content-wrapper">
 
-          <p class="note">
-            Este formulario genera abandono: demasiados campos, lenguaje técnico, validación tardía y poca guía.
-          </p>
-
-          <div class="form" id="clientForm">
-            <div class="field">
-              <label>Nombre legal completo *</label>
-              <input id="c_name" placeholder="Ingrese exactamente como en documento" />
-              <div class="help">No use abreviaturas. No se admite "Ñ" a veces.</div>
-            </div>
-
-            <div class="field">
-              <label>RFC/RUC/NIT/ID Fiscal *</label>
-              <input id="c_tax" placeholder="Ej: 0000000000000" />
-              <div class="help">Debe tener 13, 14 o 15 dígitos (depende del humor del sistema).</div>
-            </div>
-
-            <div class="field">
-              <label>Correo corporativo obligatorio *</label>
-              <input id="c_email" placeholder="name@empresa.com (no gmail)" />
-              <div class="help">Rechazamos correos personales.</div>
-            </div>
-
-            <div class="field">
-              <label>Teléfono (solo formato E.164) *</label>
-              <input id="c_phone" placeholder="+593xxxxxxxxx" />
-              <div class="help">Si no sabes E.164, mala suerte.</div>
-            </div>
-
-            <div class="field">
-              <label>Industria (selección confusa) *</label>
-              <select id="c_industry">
-                <option value="">Seleccione...</option>
-                <option>Servicios varios (otros)</option>
-                <option>Industria 4.0 (¿?)</option>
-                <option>Comercio minorista pero no mayorista</option>
-                <option>Comercio mayorista pero no minorista</option>
-                <option>Educación (privada no pública)</option>
-                <option>Educación (pública no privada)</option>
-              </select>
-              <div class="help">Si eliges mal, no se puede cambiar.</div>
-            </div>
-
-            <div class="field">
-              <label>Tipo de cliente *</label>
-              <select id="c_type">
-                <option value="">Seleccione...</option>
-                <option>VIP</option>
-                <option>Normal</option>
-                <option>Riesgo</option>
-                <option>Prueba (bloquea facturación)</option>
-              </select>
-              <div class="help">No explicamos qué significa cada uno.</div>
-            </div>
-
-            <div class="field">
-              <label>Dirección (mín. 120 caracteres) *</label>
-              <textarea id="c_address" placeholder="Calle, número, referencia, sector, etc..."></textarea>
-              <div class="help">Si no tienes 120 caracteres, inventa.</div>
-            </div>
-
-            <div class="field">
-              <label>Notas internas (obligatorio) *</label>
-              <textarea id="c_notes" placeholder="Escribe algo (lo que sea)"></textarea>
-              <div class="help">Campo obligatorio aunque no tenga sentido.</div>
-            </div>
-
-            <div class="field">
-              <label>Consentimiento (checkbox escondido) *</label>
-              <input id="c_consent" type="checkbox" style="width:auto; transform:scale(1.1)" />
-              <div class="help">Si no marcas esto, falla al final sin decirte por qué.</div>
-            </div>
-
-            <div class="field">
-              <label>Captcha anti-humanos *</label>
-              <input id="c_captcha" placeholder="¿Cuánto es 7+5? (a veces cambia)" />
-              <div class="help">Pregunta cambia cuando presionas "Enviar".</div>
-            </div>
+      <section id="view-dashboard" class="view active">
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <h3>Ingresos Totales</h3>
+            <div class="value">$42,500</div>
+            <span class="trend up">+12% este mes</span>
           </div>
-
-          <!-- Botones que no ayudan -->
-          <div class="actions">
-            <button id="btnCancelClient" class="danger">Cancelar (borra todo)</button>
-            <button id="btnSubmitClient" class="primary">Enviar (puede fallar)</button>
-            <button id="btnPrintClient">Imprimir</button>
+          <div class="card stat-card">
+            <h3>Clientes Activos</h3>
+            <div class="value">148</div>
+            <span class="trend up">+5 nuevos</span>
           </div>
-
-          <p class="note" style="margin-top:10px">
-            *El botón real de "Guardar" está escondido abajo a la derecha (mala práctica intencional).
-          </p>
+          <div class="card stat-card">
+            <h3>Alertas</h3>
+            <div class="value">0</div>
+            <span class="trend neutral">Sistema estable</span>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- OPORTUNIDADES -->
-    <section id="view-oportunidades" class="view" style="display:none">
-      <div class="card">
-        <div class="hd">
-          <h2>Oportunidades (pipeline)</h2>
-          <div class="meta">Filtros: <em>no recordados</em></div>
-        </div>
-        <div class="bd">
-          <p class="note">Tabla extensa sin paginación adecuada y con estados poco claros.</p>
-          <table>
+        <div class="card">
+          <div class="card-header">
+            <h3>Actividad Reciente</h3>
+          </div>
+          <table class="table">
             <thead>
               <tr>
-                <th>Cuenta</th><th>Monto</th><th>Prob.</th><th>Etapa</th><th>Acciones</th>
+                <th>Evento</th>
+                <th>Usuario</th>
+                <th>Estado</th>
+                <th>Fecha</th>
               </tr>
             </thead>
-            <tbody id="oppsTbody"></tbody>
+            <tbody id="activityTbody">
+              <tr>
+                <td>Inicio de sesión</td>
+                <td>Admin</td>
+                <td><span class="badge success">Exitoso</span></td>
+                <td>Hace 5 min</td>
+              </tr>
+              <tr>
+                <td>Sincronización</td>
+                <td>Sistema</td>
+                <td><span class="badge success">Completado</span></td>
+                <td>Hace 1 hora</td>
+              </tr>
+            </tbody>
           </table>
-          <div class="actions">
-            <button id="btnNewOpp" class="primary">Nueva oportunidad</button>
-            <button id="btnExport">Exportar .csvv</button>
-          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- CONFIG -->
-    <section id="view-config" class="view" style="display:none">
-      <div class="card">
-        <div class="hd">
-          <h2>Configuración</h2>
-          <div class="meta">Cuidado: cambios irreversibles</div>
-        </div>
-        <div class="bd">
-          <p class="note">
-            Opciones innecesarias y peligrosas, sin confirmaciones claras (mala UX intencional).
-          </p>
-          <div class="form">
-            <div class="field">
-              <label>Modo del sistema</label>
-              <select id="sysMode">
-                <option>Productivo (pero lento)</option>
-                <option>Productivo (pero con errores)</option>
-                <option>Experimental (rompe cosas)</option>
-              </select>
-              <div class="help">No hay documentación.</div>
+      <section id="view-clientes" class="view" style="display:none">
+        <div class="card">
+          <div class="card-header">
+            <h3>Registrar Nuevo Cliente</h3>
+            <p class="subtitle">Complete la información del formulario.</p>
+          </div>
+          
+          <form id="clientForm" class="clean-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="c_name">Nombre Legal / Razón Social *</label>
+                <input type="text" id="c_name" required placeholder="Ej: Soluciones Tech S.A." />
+              </div>
+
+              <div class="form-group">
+                <label for="c_tax">Identificación Fiscal (RUC/NIT) *</label>
+                <input type="text" id="c_tax" required placeholder="Número de identificación" />
+              </div>
+
+              <div class="form-group">
+                <label for="c_email">Correo Electrónico *</label>
+                <input type="email" id="c_email" required placeholder="contacto@empresa.com" />
+              </div>
+
+              <div class="form-group">
+                <label for="c_phone">Teléfono</label>
+                <input type="tel" id="c_phone" placeholder="+593 99..." />
+              </div>
+
+              <div class="form-group">
+                <label for="c_industry">Industria</label>
+                <select id="c_industry">
+                  <option value="Tecnología">Tecnología</option>
+                  <option value="Comercio">Comercio</option>
+                  <option value="Servicios">Servicios</option>
+                  <option value="Educación">Educación</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="c_type">Tipo de Cliente</label>
+                <select id="c_type">
+                  <option value="Normal">Normal</option>
+                  <option value="VIP">VIP</option>
+                </select>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="c_address">Dirección</label>
+                <textarea id="c_address" rows="2" placeholder="Dirección completa..."></textarea>
+              </div>
             </div>
-            <div class="field">
-              <label>Auto-cierre de sesión</label>
-              <select id="autoLogout">
-                <option value="30">30 segundos</option>
-                <option value="60">1 minuto</option>
-                <option value="120">2 minutos</option>
-              </select>
-              <div class="help">Sí, es absurdamente corto.</div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" id="btnCancelClient">Limpiar</button>
+              <button type="submit" class="btn btn-primary" id="btnSubmitClient">Guardar Cliente</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="view-oportunidades" class="view" style="display:none">
+        <div class="card">
+          <div class="card-header">
+            <h3>Pipeline de Ventas</h3>
+            <div class="header-actions">
+              <button class="btn btn-primary" id="btnNewOpp">+ Nueva Oportunidad</button>
             </div>
           </div>
-          <div class="actions">
-            <button id="btnApplyConfig" class="primary">Aplicar</button>
-            <button id="btnNuke" class="danger">Restablecer TODO</button>
-          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cuenta</th>
+                <th>Monto Estimado</th>
+                <th>Probabilidad</th>
+                <th>Etapa</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="oppsTbody">
+               <tr>
+                 <td>Acme S.A.</td>
+                 <td>$12,000</td>
+                 <td>30%</td>
+                 <td><span class="badge warning">Prospección</span></td>
+                 <td><button class="btn-text">Gestionar</button></td>
+               </tr>
+               <tr>
+                 <td>NovaRetail</td>
+                 <td>$1,500</td>
+                 <td>80%</td>
+                 <td><span class="badge info">Negociación</span></td>
+                 <td><button class="btn-text">Gestionar</button></td>
+               </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- REPORTES -->
-    <section id="view-reportes" class="view" style="display:none">
-      <div class="card">
-        <div class="hd">
-          <h2>Reportes</h2>
-          <div class="meta">Generación: "cuando quiera"</div>
-        </div>
-        <div class="bd">
-          <p class="note">
-            Reportes sin contexto, sin filtros claros, y con tiempos de carga simulados.
-          </p>
-          <div class="actions" style="justify-content:flex-start">
-            <button id="btnRunReport" class="primary">Generar Reporte</button>
-            <button id="btnRunReport2">Generar Reporte (lento)</button>
-          </div>
-          <div id="reportOutput" class="note" style="margin-top:12px; white-space:pre-wrap;"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Botón "Guardar" escondido -->
-    <button class="hidden-save" id="btnHiddenSave" title="Guardar (¿?)">💾 Guardar</button>
+    </div>
   </main>
 </div>
 
-<!-- Toast -->
-<div class="toast" id="toast">
-  <strong id="toastTitle">Aviso</strong>
-  <p id="toastMsg">Mensaje confuso.</p>
-  <div class="bar"><i></i></div>
-</div>
-
-<!-- Modal (intrusivo) -->
-<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true">
-    <div class="hd">
-      <h3 id="modalTitle">Encuesta obligatoria</h3>
-      <button id="modalX" class="danger">X</button>
-    </div>
-    <div class="bd">
-      <p>Para continuar, responda (sin motivo). Cerrar puede perder cambios.</p>
-      <div class="row">
-        <div class="field">
-          <label>¿Qué tan satisfecho está? *</label>
-          <select id="m_q1">
-            <option value="">Seleccione...</option>
-            <option>Muy satisfecho</option>
-            <option>Neutral</option>
-            <option>Frustrado</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>¿Recomendaría el sistema? *</label>
-          <select id="m_q2">
-            <option value="">Seleccione...</option>
-            <option>Sí</option>
-            <option>No</option>
-            <option>No sé</option>
-          </select>
-        </div>
-      </div>
-      <div class="field" style="margin-top:10px">
-        <label>Comentario (mín. 80 caracteres) *</label>
-        <textarea id="m_comment" placeholder="Escriba un comentario extenso..."></textarea>
-        <div class="help">Sí, es obligatorio y largo.</div>
-      </div>
-    </div>
-    <div class="ft">
-      <button id="btnModalSubmit" class="primary">Enviar</button>
-      <button id="btnModalLater">Después (pero te insistirá)</button>
-    </div>
-  </div>
-</div>
+<div id="toast" class="toast hidden">Operación exitosa</div>
 
 <script src="script.js"></script>
 </body>
