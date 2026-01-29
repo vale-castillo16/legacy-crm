@@ -154,3 +154,20 @@ button { cursor: pointer; border: none; font-family: inherit; font-weight: 500; 
 .btn-danger-text:hover { background: #fee2e2; }
 .full-width { width: 100%; }
 
+/* Botón de Editar (Estilo texto azul) */
+.btn-edit-text {
+  background: none;
+  border: none;
+  color: var(--primary); /* Azul */
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btn-edit-text:hover {
+  background: #dbeafe; /* Fondo azul muy claro */
+}

@@ -1,10 +1,11 @@
 /* =========================================
-   LegacyCRM — Core Logic (Productivo)
+   LegacyCRM — Core Logic (Con Edición)
    ========================================= */
 
 // Estado inicial
 const state = {
-  clients: JSON.parse(localStorage.getItem('legacy_clients')) || []
+  clients: JSON.parse(localStorage.getItem('legacy_clients')) || [],
+  editingId: null // Variable para saber si estamos editando
 };
 
 // --- ROUTING SIMPLE ---
@@ -16,35 +17,33 @@ function initRouter() {
   function navigate() {
     const hash = window.location.hash.slice(1) || 'dashboard';
     
-    // Actualizar menú
     links.forEach(link => {
       const isActive = link.dataset.target === hash;
       link.classList.toggle('active', isActive);
       if (isActive) title.textContent = link.innerText.trim();
     });
 
-    // Mostrar vista
     views.forEach(view => {
       view.style.display = (view.id === `view-${hash}`) ? 'block' : 'none';
     });
 
-    // Acciones específicas por vista
     if(hash === 'dashboard') updateDashboard();
     if(hash === 'clientes') renderClientsTable();
   }
 
   window.addEventListener('hashchange', navigate);
-  navigate(); // Cargar al inicio
+  navigate();
 }
 
-// --- GESTIÓN DE CLIENTES ---
+// --- GESTIÓN DE CLIENTES (GUARDAR / EDITAR) ---
 function saveClient(e) {
   e.preventDefault();
   const form = e.target;
   const formData = new FormData(form);
+  const submitBtn = form.querySelector('button[type="submit"]');
 
-  const newClient = {
-    id: Date.now(),
+  // Datos del formulario
+  const clientData = {
     name: formData.get('name'),
     tax: formData.get('tax'),
     email: formData.get('email'),
@@ -52,24 +51,83 @@ function saveClient(e) {
     date: new Date().toLocaleDateString()
   };
 
-  // Guardar en Estado y LocalStorage
-  state.clients.unshift(newClient);
-  localStorage.setItem('legacy_clients', JSON.stringify(state.clients));
+  if (state.editingId) {
+    // === MODO EDICIÓN ===
+    // Buscamos el cliente y actualizamos sus datos
+    const index = state.clients.findIndex(c => c.id === state.editingId);
+    if (index !== -1) {
+      // Mantenemos el ID y la fecha original, actualizamos el resto
+      state.clients[index] = { 
+        ...state.clients[index], 
+        ...clientData 
+      };
+      showToast('Cliente actualizado correctamente');
+    }
+    
+    // Resetear estado de edición
+    state.editingId = null;
+    submitBtn.textContent = "Guardar Cliente"; // Volver texto a normal
+    
+  } else {
+    // === MODO CREACIÓN ===
+    const newClient = {
+      id: Date.now(),
+      ...clientData
+    };
+    state.clients.unshift(newClient);
+    showToast('Cliente guardado exitosamente');
+  }
 
-  showToast('Cliente guardado exitosamente');
+  // Guardar en LocalStorage y limpiar
+  localStorage.setItem('legacy_clients', JSON.stringify(state.clients));
   form.reset();
   renderClientsTable();
+  updateDashboard();
 }
 
-function deleteClient(id) {
+// --- FUNCIÓN PARA CARGAR DATOS EN EL FORMULARIO ---
+window.editClient = function(id) {
+  const client = state.clients.find(c => c.id === id);
+  if (!client) return;
+
+  // Llenar el formulario con los datos del cliente
+  const form = document.getElementById('clientForm');
+  form.querySelector('[name="name"]').value = client.name;
+  form.querySelector('[name="tax"]').value = client.tax;
+  form.querySelector('[name="email"]').value = client.email;
+  form.querySelector('[name="industry"]').value = client.industry;
+
+  // Cambiar estado a "Editando"
+  state.editingId = id;
+  
+  // Cambiar el texto del botón para que el usuario sepa que está editando
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.textContent = "Actualizar Cambios";
+
+  // Scrollear hacia arriba para ver el formulario
+  form.scrollIntoView({ behavior: 'smooth' });
+};
+
+// --- ELIMINAR CLIENTE ---
+window.deleteClient = function(id) {
   if(confirm('¿Seguro que deseas eliminar este cliente?')) {
     state.clients = state.clients.filter(c => c.id !== id);
     localStorage.setItem('legacy_clients', JSON.stringify(state.clients));
+    
+    // Si estábamos editando este cliente, cancelamos la edición
+    if (state.editingId === id) {
+      state.editingId = null;
+      document.getElementById('clientForm').reset();
+      document.querySelector('#clientForm button[type="submit"]').textContent = "Guardar Cliente";
+    }
+
     renderClientsTable();
     showToast('Cliente eliminado');
+    updateDashboard();
   }
-}
+};
 
+// --- RENDERIZAR TABLA (CON BOTÓN EDITAR) ---
 function renderClientsTable() {
   const tbody = document.getElementById('clientsTableBody');
   tbody.innerHTML = '';
@@ -86,6 +144,7 @@ function renderClientsTable() {
       <td>${c.tax}</td>
       <td>${c.email}</td>
       <td>
+        <button class="btn-edit-text" onclick="editClient(${c.id})">Editar</button>
         <button class="btn-danger-text" onclick="deleteClient(${c.id})">Eliminar</button>
       </td>
     `;
@@ -93,12 +152,9 @@ function renderClientsTable() {
   });
 }
 
-// --- DASHBOARD INTELIGENTE ---
+// --- DASHBOARD ---
 function updateDashboard() {
-  // KPI: Total Clientes
   document.getElementById('kpi-clients').textContent = state.clients.length;
-
-  // Tabla Resumen (Últimos 3)
   const dashboardTable = document.getElementById('dashboard-table');
   dashboardTable.innerHTML = '';
   
