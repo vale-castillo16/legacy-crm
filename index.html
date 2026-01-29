@@ -3,205 +3,168 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ModernCRM — Panel de Control</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>LegacyCRM — Panel de Control</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-
-<div class="app-container">
+<div class="app-layout">
   
   <aside class="sidebar">
     <div class="brand">
-      <div class="logo-box">M</div>
-      <span>ModernCRM</span>
+      <div class="logo">L</div>
+      <span>LegacyCRM</span>
     </div>
     
-    <nav class="nav-menu">
-      <a href="#dashboard" class="nav-link active" data-target="view-dashboard">
-        Dashboard
+    <nav class="menu">
+      <a href="#dashboard" class="menu-item active" data-target="dashboard">
+        📊 Dashboard
       </a>
-      <a href="#clientes" class="nav-link" data-target="view-clientes">
-        Clientes
+      <a href="#clientes" class="menu-item" data-target="clientes">
+        👥 Clientes
       </a>
-      <a href="#oportunidades" class="nav-link" data-target="view-oportunidades">
-        Oportunidades
+      <a href="#oportunidades" class="menu-item" data-target="oportunidades">
+        💼 Oportunidades
       </a>
-      <a href="#config" class="nav-link" data-target="view-config">
-        Configuración
-      </a>
-      <a href="#reportes" class="nav-link" data-target="view-reportes">
-        Reportes
+      <a href="#config" class="menu-item" data-target="config">
+        ⚙️ Configuración
       </a>
     </nav>
 
-    <div class="sidebar-footer">
-      <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
+    <div class="user-info">
+      <div class="avatar">A</div>
+      <div class="details">
+        <span class="name">Admin User</span>
+        <span class="role">Gerente</span>
+      </div>
     </div>
   </aside>
 
   <main class="main-content">
     
     <header class="topbar">
-      <h2 id="pageTitle">Resumen General</h2>
-      <div class="topbar-actions">
-        <input type="text" class="search-input" placeholder="Buscar clientes, tratos..." />
-        <div class="user-profile">
-          <span class="user-name">Admin</span>
-          <div class="avatar">A</div>
-        </div>
+      <h1 id="pageTitle">Dashboard</h1>
+      <div class="actions">
+        <input type="text" placeholder="Buscar..." class="search-input" />
+        <button class="btn-secondary">🔔</button>
       </div>
     </header>
 
-    <div class="content-wrapper">
-
+    <div class="content-body">
+      
       <section id="view-dashboard" class="view active">
-        <div class="stats-grid">
-          <div class="card stat-card">
-            <h3>Ingresos Totales</h3>
+        <div class="kpi-grid">
+          <div class="card kpi">
+            <h3>Total Clientes</h3>
+            <div class="value" id="kpi-clients">0</div>
+          </div>
+          <div class="card kpi">
+            <h3>Oportunidades Activas</h3>
+            <div class="value" id="kpi-opps">4</div>
+          </div>
+          <div class="card kpi">
+            <h3>Ingresos Proyectados</h3>
             <div class="value">$42,500</div>
-            <span class="trend up">+12% este mes</span>
-          </div>
-          <div class="card stat-card">
-            <h3>Clientes Activos</h3>
-            <div class="value">148</div>
-            <span class="trend up">+5 nuevos</span>
-          </div>
-          <div class="card stat-card">
-            <h3>Alertas</h3>
-            <div class="value">0</div>
-            <span class="trend neutral">Sistema estable</span>
           </div>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <h3>Actividad Reciente</h3>
+            <h2>Últimos Clientes Registrados</h2>
+            <button class="btn-link" onclick="location.hash='#clientes'">Ver todos</button>
           </div>
           <table class="table">
             <thead>
-              <tr>
-                <th>Evento</th>
-                <th>Usuario</th>
-                <th>Estado</th>
-                <th>Fecha</th>
-              </tr>
+              <tr><th>Empresa</th><th>Contacto</th><th>Fecha</th></tr>
             </thead>
-            <tbody id="activityTbody">
-              <tr>
-                <td>Inicio de sesión</td>
-                <td>Admin</td>
-                <td><span class="badge success">Exitoso</span></td>
-                <td>Hace 5 min</td>
-              </tr>
-              <tr>
-                <td>Sincronización</td>
-                <td>Sistema</td>
-                <td><span class="badge success">Completado</span></td>
-                <td>Hace 1 hora</td>
-              </tr>
-            </tbody>
+            <tbody id="dashboard-table">
+              </tbody>
           </table>
         </div>
       </section>
 
       <section id="view-clientes" class="view" style="display:none">
-        <div class="card">
-          <div class="card-header">
-            <h3>Registrar Nuevo Cliente</h3>
-            <p class="subtitle">Complete la información del formulario.</p>
-          </div>
-          
-          <form id="clientForm" class="clean-form">
-            <div class="form-grid">
+        <div class="split-layout">
+          <div class="card">
+            <div class="card-header">
+              <h2>Nuevo Cliente</h2>
+            </div>
+            <form id="clientForm">
               <div class="form-group">
-                <label for="c_name">Nombre Legal / Razón Social *</label>
-                <input type="text" id="c_name" required placeholder="Ej: Soluciones Tech S.A." />
+                <label>Nombre Empresa *</label>
+                <input type="text" name="name" required placeholder="Ej. Soluciones Tech" />
               </div>
-
               <div class="form-group">
-                <label for="c_tax">Identificación Fiscal (RUC/NIT) *</label>
-                <input type="text" id="c_tax" required placeholder="Número de identificación" />
+                <label>ID Fiscal (RUC/NIT) *</label>
+                <input type="text" name="tax" required placeholder="Número de identificación" />
               </div>
-
               <div class="form-group">
-                <label for="c_email">Correo Electrónico *</label>
-                <input type="email" id="c_email" required placeholder="contacto@empresa.com" />
+                <label>Correo Electrónico *</label>
+                <input type="email" name="email" required placeholder="contacto@empresa.com" />
               </div>
-
               <div class="form-group">
-                <label for="c_phone">Teléfono</label>
-                <input type="tel" id="c_phone" placeholder="+593 99..." />
-              </div>
-
-              <div class="form-group">
-                <label for="c_industry">Industria</label>
-                <select id="c_industry">
+                <label>Industria</label>
+                <select name="industry">
                   <option value="Tecnología">Tecnología</option>
                   <option value="Comercio">Comercio</option>
                   <option value="Servicios">Servicios</option>
-                  <option value="Educación">Educación</option>
+                  <option value="Otro">Otro</option>
                 </select>
               </div>
+              <button type="submit" class="btn-primary full-width">Guardar Cliente</button>
+            </form>
+          </div>
 
-              <div class="form-group">
-                <label for="c_type">Tipo de Cliente</label>
-                <select id="c_type">
-                  <option value="Normal">Normal</option>
-                  <option value="VIP">VIP</option>
-                </select>
-              </div>
-
-              <div class="form-group full-width">
-                <label for="c_address">Dirección</label>
-                <textarea id="c_address" rows="2" placeholder="Dirección completa..."></textarea>
-              </div>
+          <div class="card" style="flex:2">
+            <div class="card-header">
+              <h2>Directorio de Clientes</h2>
             </div>
-
-            <div class="form-actions">
-              <button type="button" class="btn btn-secondary" id="btnCancelClient">Limpiar</button>
-              <button type="submit" class="btn btn-primary" id="btnSubmitClient">Guardar Cliente</button>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>ID Fiscal</th>
+                    <th>Correo</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="clientsTableBody">
+                  </tbody>
+              </table>
             </div>
-          </form>
+          </div>
         </div>
       </section>
 
       <section id="view-oportunidades" class="view" style="display:none">
-        <div class="card">
-          <div class="card-header">
-            <h3>Pipeline de Ventas</h3>
-            <div class="header-actions">
-              <button class="btn btn-primary" id="btnNewOpp">+ Nueva Oportunidad</button>
-            </div>
+        <div class="kanban-board">
+          <div class="kanban-col">
+            <div class="col-head">Prospecto (1)</div>
+            <div class="kanban-card">Acme Corp - $5,000</div>
           </div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Cuenta</th>
-                <th>Monto Estimado</th>
-                <th>Probabilidad</th>
-                <th>Etapa</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="oppsTbody">
-               <tr>
-                 <td>Acme S.A.</td>
-                 <td>$12,000</td>
-                 <td>30%</td>
-                 <td><span class="badge warning">Prospección</span></td>
-                 <td><button class="btn-text">Gestionar</button></td>
-               </tr>
-               <tr>
-                 <td>NovaRetail</td>
-                 <td>$1,500</td>
-                 <td>80%</td>
-                 <td><span class="badge info">Negociación</span></td>
-                 <td><button class="btn-text">Gestionar</button></td>
-               </tr>
-            </tbody>
-          </table>
+          <div class="kanban-col">
+            <div class="col-head">Negociación (2)</div>
+            <div class="kanban-card">Globex - $12,000</div>
+            <div class="kanban-card">Stark Ind - $50,000</div>
+          </div>
+          <div class="kanban-col">
+            <div class="col-head">Cerrado (1)</div>
+            <div class="kanban-card done">Cyberdyne - $8,200</div>
+          </div>
+        </div>
+      </section>
+      
+      <section id="view-config" class="view" style="display:none">
+        <div class="card">
+            <div class="card-header">
+                <h2>Configuración del Sistema</h2>
+            </div>
+            <div class="form-group">
+                <p>Aquí irían las configuraciones generales del CRM.</p>
+                <button class="btn-secondary" onclick="resetSystem()">Borrar todos los datos (Reset)</button>
+            </div>
         </div>
       </section>
 
@@ -209,7 +172,7 @@
   </main>
 </div>
 
-<div id="toast" class="toast hidden">Operación exitosa</div>
+<div id="toast" class="toast hidden">Operación Exitosa</div>
 
 <script src="script.js"></script>
 </body>

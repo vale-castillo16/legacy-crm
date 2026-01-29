@@ -1,143 +1,146 @@
-# 📊 LegacyCRM — Caso de Estudio UX / DCU
+# 📊 LegacyCRM UX+ — Versión Mejorada  
+### Caso de Estudio aplicado de Diseño Centrado en el Usuario (DCU)
 
-## Descripción general
+## 📌 Descripción general
+**LegacyCRM UX+** es la versión mejorada del sistema **LegacyCRM**, desarrollada como parte de un **caso de estudio académico** enfocado en la aplicación práctica del **Diseño Centrado en el Usuario (DCU)**.
 
-**LegacyCRM** es una **aplicación web tipo CRM diseñada intencionalmente con mala experiencia de usuario**.  
-Su objetivo **NO es ser un buen producto**, sino servir como **caso de estudio académico** para analizar:
+Mientras que la versión original fue diseñada intencionalmente con **mala experiencia de usuario**, esta versión corrige los principales problemas de usabilidad detectados durante el análisis, aplicando principios UX para **reducir fricción, mejorar la claridad y optimizar la interacción del usuario**.
 
-- Abandono de usuarios  
-- Fricción en interfaces  
-- Falta de Diseño Centrado en el Usuario (DCU)  
-- Consecuencias de ignorar principios de usabilidad  
-
-Esta aplicación se utiliza en una **dinámica de juego de rol** donde los estudiantes asumen distintos papeles (cliente y desarrollador) para **detectar problemas, proponer mejoras y luego implementarlas**.
+Este proyecto evidencia cómo un sistema puede **evolucionar positivamente** cuando se identifican problemas reales y se implementan mejoras justificadas.
 
 ---
 
 ## 🎯 Objetivo pedagógico
+Al trabajar con esta versión mejorada, el estudiante será capaz de:
 
-Al trabajar con esta aplicación, el estudiante será capaz de:
-
-- Identificar problemas de usabilidad reales  
+- Identificar problemas reales de usabilidad  
 - Analizar causas de abandono de usuarios  
-- Aplicar el proceso de Diseño Centrado en el Usuario  
+- Aplicar principios del Diseño Centrado en el Usuario  
 - Proponer mejoras justificadas  
 - Implementar cambios concretos en HTML, CSS y JavaScript  
+- Comparar una interfaz deficiente vs una interfaz optimizada  
 
 ---
 
-## 🧠 Enfoque del caso de estudio
+## 🔍 Problemas identificados en la versión original
+Durante el análisis del sistema LegacyCRM original se identificaron problemas críticos como:
 
-⚠️ **Advertencia**  
-Esta interfaz está diseñada para ser **frustrante a propósito**.  
-Muchos comportamientos que verás aquí **NO deben replicarse en proyectos reales**.
+- Formularios obligatorios intrusivos y defectuosos  
+- Botones sin funcionalidad (salir, enviar, soporte, búsqueda)  
+- Restricciones excesivas de caracteres sin justificación  
+- Validaciones inconsistentes (uso intermitente de caracteres como la Ñ)  
+- Interfaz con colorimetría oscura que genera fatiga visual  
+- Exceso de información innecesaria en el módulo de clientes  
+- Falta de feedback claro ante errores o acciones del usuario  
 
-La aplicación viola principios clave como:
+Estos problemas provocaban **frustración, pérdida de tiempo y abandono del sistema**.
+
+---
+
+## ✅ Mejoras implementadas (DCU aplicado)
+
+### 🎨 Mejora de la colorimetría
+- Ajuste de la paleta de colores  
+- Reducción del contraste extremo  
+- Mejor legibilidad de textos y secciones  
+- Disminución de la fatiga visual  
+
+### 📝 Corrección del formulario inicial
+- El formulario ya **no se despliega automáticamente**  
+- Eliminación de restricciones innecesarias de caracteres  
+- Funcionamiento correcto de los botones:
+  - Cerrar (❌)
+  - Enviar
+  - Omitir  
+- Validaciones claras y oportunas  
+- Mayor control del usuario sobre la interacción  
+
+### 👥 Optimización del módulo Clientes
+- Eliminación de campos innecesarios  
+- Formularios más cortos y claros  
+- Menor carga cognitiva  
+- Mayor rapidez en el registro de información  
+
+### 🔘 Corrección de funcionalidades clave
+- Botón de soporte funcional  
+- Barra de búsqueda operativa  
+- Acciones claramente identificables  
+- Feedback visual ante las acciones del usuario  
+
+---
+
+## 🧠 Principios de DCU aplicados
+Esta versión aplica directamente los siguientes principios de usabilidad:
+
 - Claridad  
 - Consistencia  
-- Feedback adecuado  
 - Control del usuario  
 - Prevención de errores  
+- Feedback inmediato  
+- Reducción de carga cognitiva  
 
 ---
 
 ## 🧩 Tecnologías utilizadas
-
 - HTML5  
 - CSS3  
 - JavaScript (Vanilla)  
 - Sin frameworks  
-- Sin backend (simulación local)
+- Sin backend (simulación local)  
 
 ---
 
 ## 🚀 Cómo ejecutar la aplicación
-
-1. Descargar o copiar el archivo `index.html`  
-2. Abrirlo directamente en cualquier navegador moderno  
+1. Descargar o clonar el repositorio  
+2. Abrir el archivo `index.html` en cualquier navegador moderno  
 3. No se requiere servidor ni instalación adicional  
 
 ---
 
-## 🧭 Módulos del CRM
+## 🧭 Módulos del CRM (versión mejorada)
 
-### Dashboard
-- Alertas ambiguas  
-- Información poco clara  
+- **Dashboard**
+  - Información más clara
+  - Alertas comprensibles
 
-### Clientes
-- Formularios extensos y confusos  
-- Validación tardía  
-- Botón de guardado escondido  
+- **Clientes**
+  - Formularios optimizados
+  - Menos datos innecesarios
 
-### Oportunidades
-- Pipeline poco claro  
-- Acciones ambiguas  
+- **Oportunidades**
+  - Acciones claras
+  - Flujo comprensible
 
-### Configuración
-- Opciones peligrosas  
-- Cambios irreversibles  
+- **Configuración**
+  - Advertencias visibles antes de acciones críticas
 
-### Reportes
-- Sin filtros claros  
-- Tiempos de carga largos  
+- **Reportes**
+  - Información más legible
+  - Menor fricción en la interpretación
 
 ---
 
-## ❌ Features diseñados para generar abandono
+## 🎓 Valor académico del proyecto
+LegacyCRM UX+ permite demostrar que:
 
-- Formularios largos  
-- Validaciones al final  
-- Mensajes de error genéricos  
-- Captchas cambiantes  
-- Cierre de sesión automático excesivo  
-- Modales intrusivos  
-- Falta de feedback claro  
-
----
-
-## 📉 Indicador de fricción (didáctico)
-
-La aplicación incluye un **medidor de fricción** que aumenta cuando el usuario enfrenta problemas de usabilidad.  
-Cuando la fricción supera cierto umbral, se simula **abandono del usuario**.
-
----
-
-## 🎭 Dinámica de juego de rol
-
-### Roles
-
-- **Cliente / Product Owner**  
-- **Desarrollador / Equipo UX**
-
----
-
-## 📝 Actividad obligatoria
-
-### Parte 1: Análisis
-- Identificar al menos 5 problemas de usabilidad  
-
-### Parte 2: Propuesta
-- Proponer 3 mejoras justificadas desde el DCU  
-
-### Parte 3: Implementación
-- Implementar las mejoras en el código  
-
----
-
-## 📚 Relación con Diseño Centrado en el Usuario
-
-Este caso permite aplicar:
-- Investigación del contexto  
-- Definición de problemas  
-- Ideación  
-- Prototipado  
-- Evaluación  
-- Iteración  
+- Un sistema mal diseñado puede mejorar significativamente  
+- El DCU es una metodología práctica, no solo teórica  
+- Las decisiones de diseño impactan directamente en la experiencia del usuario  
 
 ---
 
 ## ⚠️ Nota final
+Este proyecto **no representa un CRM comercial** ni buenas prácticas finales de producto.
 
-Esta aplicación **no representa buenas prácticas**.  
-Su valor académico está en **todo lo que hace mal**, para aprender a hacerlo bien.
+Su valor académico radica en mostrar:
+- Los errores de usabilidad del sistema original  
+- El proceso de análisis UX  
+- La aplicación de mejoras bajo el enfoque de Diseño Centrado en el Usuario  
+
+---
+
+### 👩‍🎓 Autoras
+- Samantha Tituaña  
+- Valeria Castillo  
+
+Universidad Politécnica Salesiana
